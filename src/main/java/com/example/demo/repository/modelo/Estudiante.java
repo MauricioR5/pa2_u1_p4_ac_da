@@ -33,5 +33,11 @@ public class Estudiante {
 	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+	@Override
+	public String toString() {
+		return "Estudiante [\nnombre=" + nombre + ", \napellido=" + apellido + ", \ncedula=" + cedula + ", \nfechaNacimiento="
+				+ fechaNacimiento + "]";
+	}
+	
 	
 }
