@@ -9,11 +9,9 @@ public interface EstudianteRepository {
 
 	public void actualizar(Estudiante estudiante);
 
-	// Buscamos por un identificador
-	public Estudiante seleccionar(String cedula);
+	public Estudiante seleccionar(String cedula); // se busca a partir de un identificador
 
-	// Eliminamos por un identificador
-	public void eliminar(String cedula);
+	public void eliminar(String cedula); //se elimina mediante un identificador
 	
 	public List<Estudiante> seleccionarTodos();
 

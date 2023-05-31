@@ -1,10 +1,11 @@
 package com.example.demo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
-	@Component //anotacion  para dar el control al framework
+@Component //marca para decirle que delego el control al framework
 public class Profesor {
 	private String nombre;
 	private String apellido;
@@ -12,12 +13,13 @@ public class Profesor {
 	private String cedula;
 	
 	
+	//Set & Get
+	
 	@Override
 	public String toString() {
-		return "Profesor [nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento
-				+ ", cedula=" + cedula + "]";
+		return "Profesor [Nombre=" + nombre + ", Apellido=" + apellido + ", FechaNacimiento=" + fechaNacimiento
+				+ ", Cedula=" + cedula + "]";
 	}
-	//Set y Get
 	public String getNombre() {
 		return nombre;
 	}
@@ -42,8 +44,9 @@ public class Profesor {
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
-		
+	
+
 	
 	
-	
+
 }

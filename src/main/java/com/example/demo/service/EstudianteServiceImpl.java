@@ -9,11 +9,11 @@ import com.example.demo.repository.EstudianteRepository;
 import com.example.demo.repository.modelo.Estudiante;
 
 @Service
-
 public class EstudianteServiceImpl implements EstudianteService{
 
-	@Autowired
+	@Autowired //hace la inyeccion de dependencias
 	private EstudianteRepository estudianteRepository;
+	
 	@Override
 	public void registrar(Estudiante estudiante) {
 		this.estudianteRepository.insertar(estudiante);
@@ -22,23 +22,20 @@ public class EstudianteServiceImpl implements EstudianteService{
 	@Override
 	public void actualizar(Estudiante estudiante) {
 		this.estudianteRepository.actualizar(estudiante);
-			}
+	}
 
 	@Override
-	public Estudiante buscarPorCedula(String cedula) {
-		
+	public Estudiante buscarCedula(String cedula) {
 		return this.estudianteRepository.seleccionar(cedula);
 	}
 
 	@Override
 	public void borrar(String cedula) {
 		this.estudianteRepository.eliminar(cedula);
-		
 	}
 
 	@Override
 	public List<Estudiante> reporteDeTodos() {
-		// TODO Auto-generated method stub
 		return this.estudianteRepository.seleccionarTodos();
 	}
 

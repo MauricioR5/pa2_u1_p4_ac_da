@@ -12,19 +12,18 @@ import com.example.demo.repository.modelo.Estudiante;
 public class TransferenciaRepositoryImpl implements TransferenciaRepository{
 
 	private static List<Transferencia> baseDatos = new ArrayList<>();
+	private static List<Transferencia> movimientos = new ArrayList<>();
+
 	
 	@Override
 	public void insertar(Transferencia transferencia) {
-		
 		baseDatos.add(transferencia);
-			
 	}
 
 	@Override
 	public void actualizar(Transferencia transferencia) {
 		this.eliminar(transferencia.getNumero());
 		this.insertar(transferencia);
-		
 	}
 
 	@Override
@@ -36,13 +35,19 @@ public class TransferenciaRepositoryImpl implements TransferenciaRepository{
 	@Override
 	public Transferencia seleccionarPorNumero(String numero) {
 		Transferencia transEncontrado = new Transferencia();
-		for(Transferencia transfer : baseDatos) {
-			//if(estu.getCedula().equals(cedula))	//Maluso
-			if(numero.equals(transfer.getNumero())){ //Primero se pone el elemento que se asegura no es nulo
-				transEncontrado = transfer;
+		for (Transferencia trans : baseDatos) {
+			if (numero.equals(trans.getNumero())) { 
+				transEncontrado = trans;
 			}
 		}
 		return transEncontrado;
 	}
+
+	@Override
+	public List<Transferencia> movimientos(){
+		
+		return baseDatos;
+	}
+
 
 }

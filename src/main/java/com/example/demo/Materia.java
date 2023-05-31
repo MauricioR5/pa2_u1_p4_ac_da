@@ -1,7 +1,6 @@
 package com.example.demo;
 
 public class Materia {
-
 	private String nombre;
 
 	public String getNombre() {
@@ -12,4 +11,6 @@ public class Materia {
 		this.nombre = nombre;
 	}
 	
+	
+
 }

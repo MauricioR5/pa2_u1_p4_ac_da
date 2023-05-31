@@ -1,9 +1,10 @@
 package com.example.demo;
 
 public class MateriaExtraordinaria {
-
 	private String nombre;
 	private Integer cantidadCreditos;
+	
+//getters y setters
 	public String getNombre() {
 		return nombre;
 	}
@@ -18,4 +19,7 @@ public class MateriaExtraordinaria {
 	}
 	
 	
+
 }
+
+

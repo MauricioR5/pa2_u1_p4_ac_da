@@ -5,17 +5,13 @@ import java.util.List;
 import com.example.demo.repository.modelo.Estudiante;
 
 public interface EstudianteService {
-	
 	public void registrar(Estudiante estudiante);
 
 	public void actualizar(Estudiante estudiante);
 
-	// Buscamos por un identificador
-	public Estudiante buscarPorCedula(String cedula);
+	public Estudiante buscarCedula(String cedula); // se busca a partir de un identificador
 
-	// Eliminamos por un identificador
-	public void borrar(String cedula);
+	public void borrar(String cedula); //se elimina mediante un identificador
 	
 	public List<Estudiante> reporteDeTodos();
-
 }

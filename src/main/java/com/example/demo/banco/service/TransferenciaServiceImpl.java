@@ -1,24 +1,31 @@
 package com.example.demo.banco.service;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.banco.repository.CuentaRepository;
 import com.example.demo.banco.repository.TransferenciaRepository;
 import com.example.demo.banco.repository.modelo.Cuenta;
 import com.example.demo.banco.repository.modelo.Transferencia;
+
 @Service
-public class TransferenciaServiceImlp implements TransferenciaService {
+public class TransferenciaServiceImpl implements TransferenciaService {
+	private static List<Transferencia> baseDatos = new ArrayList<>();
 
 	@Autowired
 	private CuentaRepository cuentaRepository;
 
 	@Autowired
 	public TransferenciaRepository transferenciaRepository;
+	@Autowired
+	@Qualifier("internacional")
+	public MontoDebitarService debitarSevice;
 
 	@Override
 	public void guardar(Transferencia transferencia) {
@@ -34,12 +41,12 @@ public class TransferenciaServiceImlp implements TransferenciaService {
 	@Override
 	public void borrar(String numero) {
 		this.transferenciaRepository.eliminar(numero);
+
 	}
 
 	@Override
 	public Transferencia buscarPorNumero(String numero) {
 		return this.transferenciaRepository.seleccionarPorNumero(numero);
-
 	}
 
 	@Override
@@ -48,11 +55,13 @@ public class TransferenciaServiceImlp implements TransferenciaService {
 		Cuenta ctaOrigen = this.cuentaRepository.seleccionarPorNumero(numeroCtaOrigen);
 		// 2. Consultar el saldo de la cuenta origen
 		BigDecimal saldoOrigen = ctaOrigen.getSaldo();
+		BigDecimal montoDebitar = this.debitarSevice.calcular(monto);
 		// 3. Validar si el saldo es suficiente
-		if (monto.compareTo(saldoOrigen) <= 0) {
+		if (montoDebitar.compareTo(saldoOrigen) <= 0) {
+			
 			// 5. Si si es suficiente ir al paso 6
 			// 6. Realizamos la resta del saldo origen - monto
-			BigDecimal nuevoSaldoOrigen = saldoOrigen.subtract(monto);
+			BigDecimal nuevoSaldoOrigen = saldoOrigen.subtract(montoDebitar);
 			// 7. Actualizamos el nuevo saldo de la cuenta origen
 			ctaOrigen.setSaldo(nuevoSaldoOrigen);
 			this.cuentaRepository.actualizar(ctaOrigen);
@@ -72,7 +81,7 @@ public class TransferenciaServiceImlp implements TransferenciaService {
 			transfer.setMonto(monto);
 			Double numero=Math.random();
 			transfer.setNumero(numero.toString());
-			transfer.setFecha(LocalDateTime.now());
+			transfer.setFechas(LocalDateTime.now());
 			this.transferenciaRepository.insertar(transfer);
 			
 		} else {
@@ -80,8 +89,7 @@ public class TransferenciaServiceImlp implements TransferenciaService {
 			System.out.println("No hay saldo suficiente para realizar la transferencia. \nSu saldo es: " + saldoOrigen);
 		}
 
-
-		
 	}
 
+	
 }

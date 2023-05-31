@@ -6,26 +6,28 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.banco.repository.modelo.Cuenta;
+import com.example.demo.banco.repository.modelo.Transferencia;
 
 @Repository
 public class CuentaRepositoryImpl implements CuentaRepository {
+
 	private static List<Cuenta> baseDatos = new ArrayList<>();
 
 	@Override
-	public void guardar(Cuenta cuenta) {
+	public void insertar(Cuenta cuenta) {
 		baseDatos.add(cuenta);
 
 	}
 
 	@Override
 	public void actualizar(Cuenta cuenta) {
-		this.borrar(cuenta.getNumero());
-		this.guardar(cuenta);
+		this.eliminar(cuenta.getNumero());
+		this.insertar(cuenta);
 
 	}
 
 	@Override
-	public void borrar(String numero) {
+	public void eliminar(String numero) {
 		Cuenta cuenta = this.seleccionarPorNumero(numero);
 		baseDatos.remove(cuenta);
 
@@ -33,14 +35,14 @@ public class CuentaRepositoryImpl implements CuentaRepository {
 
 	@Override
 	public Cuenta seleccionarPorNumero(String numero) {
-		Cuenta cuentaEncontrado = new Cuenta();
+		Cuenta cuentaEncontrada = new Cuenta();
 		for (Cuenta cuenta : baseDatos) {
-			// if(estu.getCedula().equals(cedula)) //Maluso
-			if (numero.equals(cuenta.getNumero())) { // Primero se pone el elemento que se asegura no es nulo
-				cuentaEncontrado = cuenta;
+			if (numero.equals(cuenta.getNumero())) {
+				cuentaEncontrada = cuenta;
 			}
 		}
-		return cuentaEncontrado;
+		return cuentaEncontrada;
+
 	}
 
 }
