@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.banco.repository.CuentaRepository;
 import com.example.demo.banco.repository.TransferenciaRepository;
 import com.example.demo.banco.repository.modelo.Cuenta;
+import com.example.demo.banco.repository.modelo.Impuesto;
 import com.example.demo.banco.repository.modelo.Transferencia;
 
 @Service
@@ -27,8 +28,14 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 	@Qualifier("internacional")
 	public MontoDebitarService debitarSevice;
 
+	@Autowired
+	private Impuesto impuesto;
+
 	@Override
 	public void guardar(Transferencia transferencia) {
+
+		System.out.println("La transferencia se va a calcular con el IVA: ");
+		System.out.println(impuesto.getIva());
 		this.transferenciaRepository.insertar(transferencia);
 
 	}
@@ -58,7 +65,7 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 		BigDecimal montoDebitar = this.debitarSevice.calcular(monto);
 		// 3. Validar si el saldo es suficiente
 		if (montoDebitar.compareTo(saldoOrigen) <= 0) {
-			
+
 			// 5. Si si es suficiente ir al paso 6
 			// 6. Realizamos la resta del saldo origen - monto
 			BigDecimal nuevoSaldoOrigen = saldoOrigen.subtract(montoDebitar);
@@ -79,11 +86,11 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 			transfer.setCuentaOrigen(ctaOrigen);
 			transfer.setCuentaDestino(ctaDestino);
 			transfer.setMonto(monto);
-			Double numero=Math.random();
+			Double numero = Math.random();
 			transfer.setNumero(numero.toString());
 			transfer.setFechas(LocalDateTime.now());
 			this.transferenciaRepository.insertar(transfer);
-			
+
 		} else {
 			// 4. Si no es suficiente imprimir mensaje de "No hay saldo"
 			System.out.println("No hay saldo suficiente para realizar la transferencia. \nSu saldo es: " + saldoOrigen);
@@ -91,5 +98,4 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 
 	}
 
-	
 }

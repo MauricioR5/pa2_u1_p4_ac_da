@@ -1,29 +1,41 @@
 package com.example.demo;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.demo.banco.repository.modelo.Cuenta;
-import com.example.demo.banco.service.CuentaService;
+import com.example.demo.banco.repository.modelo.Cajero;
+import com.example.demo.banco.repository.modelo.Impuesto;
+import com.example.demo.banco.repository.modelo.Presidente;
+import com.example.demo.banco.repository.modelo.Transferencia;
+import com.example.demo.banco.service.CargaSistemaService;
 import com.example.demo.banco.service.TransferenciaService;
-import com.example.demo.repository.modelo.Estudiante;
-import com.example.demo.service.EstudianteService;
 
 @SpringBootApplication
 public class Pa2U1P4AcDaApplication implements CommandLineRunner {
 
 	@Autowired
-	private CuentaService cuentaService;
+	private Cajero cajero;
+
+	@Autowired
+	private Cajero cajero1;
+
+	@Autowired
+	private Presidente presidente;
+
+	@Autowired
+	private Presidente presidente2;
+
+	@Autowired
+	private CargaSistemaService cargaSistemaService;
 	
 	@Autowired
 	private TransferenciaService transferenciaService;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(Pa2U1P4AcDaApplication.class, args);
@@ -31,31 +43,36 @@ public class Pa2U1P4AcDaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		this.cajero.setApellido("Cacuango");
+		this.cajero.setNombre("Mau Dennisse");
+		this.cajero.setSalario(new BigDecimal(850));
 
-		Cuenta cta01 = new Cuenta();
-		cta01.setCedulaPropietario("1726600537");
-		cta01.setFechaApertura(LocalDate.now());
-		cta01.setNumero("526");
-		cta01.setSaldo(new BigDecimal(200));
-		cta01.setTipo("A");
-		this.cuentaService.guardar(cta01);
-		
-		Cuenta cta02 = new Cuenta();
-		cta02.setCedulaPropietario("1785693458");
-		cta02.setFechaApertura(LocalDate.now());
-		cta02.setNumero("963");
-		cta02.setSaldo(new BigDecimal(100));
-		cta02.setTipo("A");
-		this.cuentaService.guardar(cta02);
-		
-		
-		this.transferenciaService.realizar("526", "963", new BigDecimal(10));
-		
-		System.out.println("Saldo Origen: "+this.cuentaService.buscarPorNumero("526").getSaldo());
-		
-		System.out.println("Saldo destino: "+this.cuentaService.buscarPorNumero("963").getSaldo());
-		
+		this.cajero1.setApellido("Andrade");
 
+		System.out.println(this.cajero);
+		System.out.println(this.cajero1);
+		System.out.println(this.cajero1.getApellido());
+
+		this.presidente.setApellido("Porras");
+		this.presidente.setNombre("Andrea");
+		this.presidente.setCedula("cedula");
+
+		this.presidente2.setApellido("Tacones");
+		// this.presidente2.setNombre("Andrea");
+		// this.presidente2.setCedula("cedula");
+		System.out.println(this.presidente);
+		System.out.println(this.presidente2);
+
+		System.out.println("*********** Segunda parte del taller *****");
+
+		this.cargaSistemaService.cargar();
+		Transferencia transfer = new Transferencia();
+		transfer.setCuentaOrigen(null);
+		transfer.setCuentaDestino(null);
+		transfer.setFechas(LocalDateTime.now());
+		transfer.setMonto(new BigDecimal(100));
+		transfer.setNumero("12313212313");
+		this.transferenciaService.guardar(transfer);
 		
 
 	}
